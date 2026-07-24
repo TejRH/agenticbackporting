@@ -1,0 +1,30 @@
+name: Verify backport
+
+# Re-runs the real path-traversal exploit against the component in this pull
+# request. Make this a required status check on the release branch so no
+# backport — agent-authored or human-authored — can merge without proof.
+
+on:
+  pull_request:
+    branches:
+      - 'release-**'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: Exploit must fail against the patched component
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the pull request
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Run exploit verification
+        run: node scripts/ci-verify.js
