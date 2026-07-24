@@ -3,7 +3,7 @@
   "@id": "https://example.com/vex/cve-2007-4559-archive-utils-3.13",
   "author": "remediation-agent",
   "role": "Automated Remediation Pipeline",
-  "timestamp": "2026-07-23T19:32:15.234Z",
+  "timestamp": "2026-07-24T05:33:11.489Z",
   "version": 1,
   "statements": [
     {
