@@ -1,8 +1,6 @@
 name: Verify backport
 on:
   pull_request:
-    branches:
-      - 'release-**'
   workflow_dispatch:
 jobs:
   verify:
