@@ -1,0 +1,26 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://example.com/vex/cve-2007-4559-archive-utils-3.13",
+  "author": "remediation-agent",
+  "role": "Automated Remediation Pipeline",
+  "timestamp": "2026-08-06T22:18:16.901Z",
+  "version": 1,
+  "statements": [
+    {
+      "vulnerability": {
+        "name": "CVE-2007-4559",
+        "description": "Directory traversal in archive extraction (CWE-22)."
+      },
+      "products": [
+        {
+          "@id": "pkg:generic/archive-utils@3.13",
+          "identifiers": {
+            "purl": "pkg:generic/archive-utils@3.13"
+          }
+        }
+      ],
+      "status": "fixed",
+      "action_statement": "Path-traversal guard backported from upstream 3.14. Exploit verified: fires against pre-patch code, blocked against post-patch code."
+    }
+  ]
+}
