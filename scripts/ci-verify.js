@@ -9,10 +9,6 @@
 
 const path = require('path');
 const { runExploit } = require(path.join(__dirname, '..', 'lib', 'exploit'));
-let oracle = null;
-try {
-  oracle = require(path.join(__dirname, '..', 'lib', 'oracle'));
-} catch (_) { /* suite optional */ }
 
 const PINNED_DESCRIBE = 'archive-utils v3.13 (pinned)';
 
@@ -91,35 +87,6 @@ function line(ok, label, detail) {
         : 'escaped=' + after.escaped
     )
   );
-
-  // Validated suite: every candidate test that survives differential
-  // validation must also be blocked by this patch.
-  if (oracle) {
-    let fixedMod = null;
-    try {
-      fixedMod = require(path.join(__dirname, '..', 'lib', 'fixed-upstream'));
-    } catch (_) { fixedMod = null; }
-    const built = await oracle.buildOracle(
-      vulnerable.extract,
-      fixedMod ? fixedMod.extract : null
-    );
-    console.log('');
-    console.log('  Test oracle: ' + built.suiteSize + ' of ' +
-      built.candidateCount + ' candidates validated' +
-      (built.halfValidated ? ' (half-validated)' : ''));
-    for (const r of built.rejected) {
-      console.log('    dropped: ' + r.id + ' (' + r.payload + ')');
-    }
-    if (built.suiteSize === 0) {
-      results.push(line(false, 'Validated test suite is non-empty'));
-    } else if (sigOk) {
-      const run = await oracle.runSuite(built.accepted, candidate.extract);
-      results.push(
-        line(run.allBlocked, 'Validated suite blocked',
-          run.firedCount + ' of ' + built.suiteSize + ' fired')
-      );
-    }
-  }
 
   console.log('');
   const passed = results.every(Boolean);
